@@ -16,6 +16,10 @@ class ShowsRoute implements Routes {
 
   private initializeRoutes() {
     this.router.post(`${this.path}`, validationMiddleware(CreateShowDto, 'body'), authMiddleware, this.showsController.createShow);
+    this.router.get(`${this.path}`, authMiddleware, this.showsController.getShows);
+    this.router.get(`${this.path}/:id`, authMiddleware, this.showsController.getShowById);
+    this.router.put(`${this.path}/:id`, validationMiddleware(CreateShowDto, 'body', true), authMiddleware, this.showsController.updateShow);
+    this.router.delete(`${this.path}/:id`, authMiddleware, this.showsController.deleteShow);
   }
 }
 

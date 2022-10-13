@@ -1,8 +1,77 @@
 tags:
-- name: users
-  description: users API
+- name: Tv Tracker
+  description: Tv Tracker API
 
 paths:
+# [POST] auth
+  /signup:
+    post:
+      tags:
+      - auth
+      summary: Create account
+      parameters:
+      - name: body
+        in: body
+        description: Create a User to authenticate
+        required: true
+        schema:
+          $ref: '#/definitions/users'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+# [POST] auth
+  /login:
+    post:
+      tags:
+      - auth
+      summary: Login
+      parameters:
+      - name: body
+        in: body
+        description: Login a User to use other routes
+        required: true
+        schema:
+          $ref: '#/definitions/users'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+# [POST] auth
+  /logout:
+    post:
+      tags:
+      - auth
+      summary: Logout
+      parameters:
+      - name: body
+        in: body
+        description: logout a user
+        required: true
+        schema:
+          $ref: '#/definitions/users'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+
 # [GET] users
   /users:
     get:
@@ -100,6 +169,137 @@ paths:
         500:
           description: 'Server Error'
 
+# Shows
+
+# [POST] Shows
+  /shows:
+    # [GET] shows
+      get:
+        tags:
+        - shows
+        parameters:
+        - name: types
+          in: query
+          description: Select types *Splitted by comma* ("Terror", "Romance")
+          required: false
+          schema:
+            type: string
+            enum: ["Terror", "Comedy", "Romance"]
+        summary: Find all shows
+        responses:
+          200:
+            description: 'OK'
+          409:
+            description: 'Conflict'
+          500:
+            description: 'Server Error'
+
+      post:
+        tags:
+        - shows
+        summary: Add show
+        parameters:
+        - name: body
+          in: body
+          description: show Data
+          required: true
+          schema:
+            $ref: '#/definitions/shows'
+        responses:
+          201:
+            description: 'Created'
+          400:
+            description: 'Bad Request'
+          409:
+            description: 'Conflict'
+          500:
+            description: 'Server Error'
+
+  # [GET] shows/id
+  /shows/{id}:
+    get:
+      tags:
+      - shows
+      summary: Find shows By Id
+      parameters:
+      - name: id
+        in: path
+        description: show Id
+        required: true
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+# [PUT] shows/id
+    put:
+      tags:
+      - shows
+      summary: Update show By Id
+      parameters:
+      - name: id
+        in: path
+        description: show Id
+        required: true
+      - name: body
+        in: body
+        description: show Data
+        required: true
+        schema:
+          $ref: '#/definitions/shows'
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+# [DELETE] shows/id
+    delete:
+      tags:
+      - shows
+      summary: Delete show By Id
+      parameters:
+      - name: id
+        in: path
+        description: show Id
+        required: true
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+  /users/favourite:
+    post:
+      tags:
+      - favourite
+      summary: Associate favourite shows for a user by show id
+      parameters:
+      - name: body
+        in: body
+        description: user Data
+        required: true
+        schema:
+          $ref: '#/definitions/favouriteShows'
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
 # definitions
 definitions:
   users:
@@ -114,6 +314,42 @@ definitions:
       password:
         type: string
         description: user Password
+  shows:
+    type: object
+    required:
+        - name
+        - stars
+        - details
+        - type
+    properties:
+      name:
+        type: string
+        description: show name
+      stars:
+        type: number
+        description: stars number
+      details:
+        type: string
+        description: details of the show
+      releaseDate:
+        type: string
+        description: release date (YYYY-MM-DD)
+      type:
+        type: string
+        description: type of the show
+        enum: ['Terror', 'Comedy', "Romance"]
+  favouriteShows:
+    type: object
+    required:
+        - userId
+        - showId
+    properties:
+      userId:
+        type: string
+        description: user id
+      showId:
+        type: string
+        description: show id
 
 schemes:
  - https

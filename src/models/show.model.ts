@@ -11,6 +11,19 @@ const showSchema: Schema = new Schema({
     type: Number,
     required: true,
   },
+  details: {
+    type: String,
+    required: true
+  },
+  releaseDate: {
+    type: Date,
+    required: true
+  },
+  type: {
+    type: String,
+    enum: ['Terror', 'Comedy', 'Romance'],
+    required: true
+  }
 });
 
 const showModel = model<Show & Document>('Show', showSchema);

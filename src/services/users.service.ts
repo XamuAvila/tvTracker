@@ -4,6 +4,9 @@ import { HttpException } from '@exceptions/HttpException';
 import { User } from '@interfaces/users.interface';
 import userModel from '@models/users.model';
 import { isEmpty } from '@utils/util';
+import ShowService from './show.service';
+import { Show } from '@/interfaces/show.interface';
+import { FavouriteShowDto } from '@/dtos/favouriteShow.dto';
 
 class UserService {
   public users = userModel;
@@ -58,6 +61,16 @@ class UserService {
     if (!deleteUserById) throw new HttpException(409, "User doesn't exist");
 
     return deleteUserById;
+  }
+
+  public async favoriteShow(data: FavouriteShowDto): Promise<void> {
+    const showService: ShowService = new ShowService();
+    const foundShow: Show = await showService.findShowById(data.showId);
+    const findUser: User = await this.findUserById(data.userId);
+    let allFavourite = [data.showId]
+    findUser.favouriteShows = data.showId;
+    const user: User = { ...findUser, favouriteShows: findUser.favouriteShows };
+    await this.users.findByIdAndUpdate(data.userId, user)
   }
 }
 

@@ -1,4 +1,5 @@
-import { IsInt, IsNotEmpty } from "class-validator";
+import { ShowsTypes } from "@/interfaces/show.interface";
+import { IsEnum, IsInt, IsNotEmpty, IsString } from "class-validator";
 
 export class CreateShowDto {
   @IsNotEmpty()
@@ -6,4 +7,13 @@ export class CreateShowDto {
 
   @IsInt()
   stars: number
+
+  @IsString()
+  details: String
+
+  @IsNotEmpty()
+  releaseDate: String
+
+  @IsEnum(ShowsTypes)
+  type: ShowsTypes
 }

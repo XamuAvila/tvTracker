@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { CreateUserDto } from '@dtos/users.dto';
 import { User } from '@interfaces/users.interface';
 import userService from '@services/users.service';
+import { FavouriteShowDto } from '@/dtos/favouriteShow.dto';
 
 class UsersController {
   public userService = new userService();
@@ -56,6 +57,16 @@ class UsersController {
       const deleteUserData: User = await this.userService.deleteUser(userId);
 
       res.status(200).json({ data: deleteUserData, message: 'deleted' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public favouriteShow = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const body: FavouriteShowDto = req.body;
+      await this.userService.favoriteShow(body);
+      res.status(200).json({ message: 'favourited' });
     } catch (error) {
       next(error);
     }
