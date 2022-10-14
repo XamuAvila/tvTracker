@@ -1,8 +1,13 @@
 # Tv Tracker
 
+- localhost:80 (depois de startar no docker)
+- http://localhost:80/api-docs/ (swagger)
+
 ## Docker
-* docker compose up
-* .env example:
+
+- docker compose up
+- .env example:
+
 ```
 # PORT
 PORT = 4200
@@ -23,8 +28,11 @@ LOG_DIR = ../logs
 ORIGIN = *
 CREDENTIALS = true
 ```
+
 #Swagger
-* http://localhost:80/api-docs/#/users/get_users
+
+- http://localhost:80/api-docs/#/users/get_users
+
 # Testes
 
-Somente rodar __npm run test__ no terminal.
+Somente rodar **npm run test** no terminal.
