@@ -74,9 +74,9 @@ class App {
     const options = {
       swaggerDefinition: {
         info: {
-          title: 'REST API',
+          title: 'TvTracker',
           version: '1.0.0',
-          description: 'Example docs',
+          description: 'Tv Tracker Swagger',
         },
       },
       apis: ['swagger.yaml'],
